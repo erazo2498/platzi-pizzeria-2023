@@ -20,11 +20,16 @@ public class PizzaEntity {
 
     @Column(nullable = false, length = 150)
     private String description;
+
     @Column(nullable = false, columnDefinition = "Decimal(5,2)")
     private Double price;
+
     @Column(columnDefinition = "TINYINT")
     private Boolean vegetarian;
 
+    @Column(columnDefinition = "TINYINT")
+    private Boolean vegan;
+
     @Column(columnDefinition = "TINYINT", nullable = false)
-    private Boolean availabe;
+    private Boolean available;
 }
