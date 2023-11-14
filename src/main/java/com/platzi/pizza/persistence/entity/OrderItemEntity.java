@@ -33,6 +33,14 @@ public class OrderItemEntity {
     @Column(nullable = false, columnDefinition = "Decimal(5,2)")
     private Double price;
 
+    @OneToOne
+    @JoinColumn(name = "id_pizza", referencedColumnName = "id_pizza", insertable = false, updatable = false)
+    private PizzaEntity pizza;
+
+    @ManyToOne
+    @JoinColumn(name = "id_order", referencedColumnName = "id_order", insertable = false, updatable = false)
+    private OrderEntity order;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
