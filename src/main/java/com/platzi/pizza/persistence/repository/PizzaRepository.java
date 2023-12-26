@@ -10,4 +10,12 @@ public interface PizzaRepository extends ListCrudRepository<PizzaEntity,Integer>
 
     @Query("select p from PizzaEntity p where p.available = false")
     List<PizzaEntity> findAllNotAvailable();
+
+    //QueryMethod
+    List<PizzaEntity> findAllByAvailableTrueOrderByPrice();
+
+    List<PizzaEntity> findAllByAvailableTrueAndNameIgnoreCase(String name);
+    List<PizzaEntity> findAllByAvailableTrueAndDescriptionContainingIgnoreCase(String description);
+    List<PizzaEntity> findAllByAvailableTrueAndDescriptionNotContainingIgnoreCase(String description);
+
 }
