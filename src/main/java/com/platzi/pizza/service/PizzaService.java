@@ -38,15 +38,23 @@ public class PizzaService {
     public PizzaEntity save(PizzaEntity pizza){
         return this.pizzaRepository.save(pizza);
     }
+
+    public PizzaEntity findFirstByAvailableTrueAndNameIgnoreCase(String name) {
+        return pizzaRepository.findFirstByAvailableTrueAndNameIgnoreCase(name);
+    }
     public List<PizzaEntity> getAllNotAvailable() {
         return pizzaRepository.findAllNotAvailable();
     }
 
     public List<PizzaEntity> findAllByAvailableTrueOrderByPrice() {
+        System.out.println(this.pizzaRepository.countAllByVeganTrue());
         return pizzaRepository.findAllByAvailableTrueOrderByPrice();
     }
     public List<PizzaEntity> findAllByAvailableTrueAndNameIgnoreCase(String name) {
         return pizzaRepository.findAllByAvailableTrueAndNameIgnoreCase(name);
+    }
+    public List<PizzaEntity> getCheapest(double price) {
+        return pizzaRepository.findTop3ByAvailableTrueAndPriceLessThanEqualOrderByPriceAsc(price);
     }
     public List<PizzaEntity> findAllByAvailableTrueAndDescriptionContainingIgnoreCase(String description) {
         return pizzaRepository.findAllByAvailableTrueAndDescriptionContainingIgnoreCase(description);

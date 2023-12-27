@@ -31,6 +31,16 @@ public class PizzaController {
         return ResponseEntity.ok(this.pizzaService.findAllByAvailableTrueAndNameIgnoreCase(name));
     }
 
+    @GetMapping("top3-cheapest/{price}")
+    public ResponseEntity<List<PizzaEntity>> getCheapest(@PathVariable double price){
+        return ResponseEntity.ok(this.pizzaService.getCheapest(price));
+    }
+
+    @GetMapping("first-by-name/{name}")
+    public ResponseEntity<PizzaEntity> findFirstByAvailableTrueAndNameIgnoreCase(@PathVariable String name){
+        return ResponseEntity.ok(this.pizzaService.findFirstByAvailableTrueAndNameIgnoreCase(name));
+    }
+
     @GetMapping("with/{ingredient}")
     public ResponseEntity<List<PizzaEntity>> getWith(@PathVariable String ingredient){
         return ResponseEntity.ok(this.pizzaService.findAllByAvailableTrueAndDescriptionContainingIgnoreCase(ingredient));
