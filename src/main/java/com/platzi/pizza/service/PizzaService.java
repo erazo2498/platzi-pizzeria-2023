@@ -1,8 +1,14 @@
 package com.platzi.pizza.service;
 
 import com.platzi.pizza.persistence.entity.PizzaEntity;
+import com.platzi.pizza.persistence.repository.PizzaPagSortRepository;
 import com.platzi.pizza.persistence.repository.PizzaRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 
@@ -10,9 +16,11 @@ import java.util.List;
 public class PizzaService {
 //    private final JdbcTemplate jdbcTemplate;
     private final PizzaRepository  pizzaRepository;
+    private final PizzaPagSortRepository  pizzaPagSortRepository;
 
-    public PizzaService(PizzaRepository pizzaRepository) {
+    public PizzaService(PizzaRepository pizzaRepository, PizzaPagSortRepository pizzaPagSortRepository) {
         this.pizzaRepository = pizzaRepository;
+        this.pizzaPagSortRepository = pizzaPagSortRepository;
     }
 
 //    @Autowired
@@ -28,9 +36,11 @@ public class PizzaService {
 //    public List<PizzaEntity> getAllNotAvailable() {
 //        return this.jdbcTemplate.query("SELECT * FROM PIZZA WHERE available = 0", new BeanPropertyRowMapper<>(PizzaEntity.class));
 //    }
-    public List<PizzaEntity> getAll() {
-        return this.pizzaRepository.findAll();
+    public Page<PizzaEntity> getAll(int page, int elements) {
+        Pageable pageRequest = PageRequest.of(page, elements);
+        return this.pizzaPagSortRepository.findAll(pageRequest);
     }
+
     public PizzaEntity get(int idPizza) {
         return this.pizzaRepository.findById(idPizza).orElse(null);
     }
@@ -46,9 +56,13 @@ public class PizzaService {
         return pizzaRepository.findAllNotAvailable();
     }
 
-    public List<PizzaEntity> findAllByAvailableTrueOrderByPrice() {
+    public Page<PizzaEntity> findAllByAvailableTrueOrderByPrice(int page, int elements, String sortBy, String sortDirection) {
         System.out.println(this.pizzaRepository.countAllByVeganTrue());
-        return pizzaRepository.findAllByAvailableTrueOrderByPrice();
+
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection),sortBy);
+        Pageable pageRequest = PageRequest.of(page, elements, sort);
+
+        return pizzaPagSortRepository.findAllByAvailableTrue(pageRequest);
     }
     public List<PizzaEntity> findAllByAvailableTrueAndNameIgnoreCase(String name) {
         return pizzaRepository.findAllByAvailableTrueAndNameIgnoreCase(name);
