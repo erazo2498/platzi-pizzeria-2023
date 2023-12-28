@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface PizzaRepository extends ListCrudRepository<PizzaEntity,Integer> {
 
+    //Jpql
     @Query("select p from PizzaEntity p where p.available = false")
     List<PizzaEntity> findAllNotAvailable();
 
