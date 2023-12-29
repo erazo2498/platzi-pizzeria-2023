@@ -1,16 +1,19 @@
 package com.platzi.pizza.persistence.entity;
 
+import com.platzi.pizza.persistence.audit.AuditTableEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Table(name = "PIZZA")
+@EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
 @NoArgsConstructor
-public class PizzaEntity {
+public class PizzaEntity extends AuditTableEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_pizza", nullable = false)
@@ -32,4 +35,5 @@ public class PizzaEntity {
 
     @Column(columnDefinition = "TINYINT", nullable = false)
     private Boolean available;
+
 }
